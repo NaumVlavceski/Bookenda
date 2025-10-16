@@ -1,0 +1,77 @@
+.container {
+    margin: 20px;
+    border-radius: 20px;
+    --tw-shadow: 0 4px 6px 2px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.5);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    width: 500px;
+    padding: 5% 2%;
+}
+.form {
+    margin: 0 20px;
+}
+
+.form .btn {
+    margin: 20px 0;
+    width: 100%;
+}
+
+label span {
+    color: red;
+}
+
+.icon {
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    background: #dbeafe;
+    border-radius: 100%;
+}
+
+svg {
+    width: 30px;
+    height: 30px;
+}
+
+.errorlist {
+    width: 100%;
+    height: auto;
+    border: 2px solid #e10404;
+    background: #ffdddd;
+    border-radius: 10px;
+    padding: 10px 20px;
+}
+
+.errorlist li {
+    color: #fb4f4f;
+    list-style: none;
+}
+
+.link {
+    text-decoration: none;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+.events-bg {
+    background: linear-gradient(135deg, #3030f6 0%, #010f65 100%);
+}
+
+.exp {
+    color: #f1f1f1;
+    font-size: 30px;
+}
+
+.error {
+    width: 100%;
+    height: auto;
+    border: 2px solid #e10404;
+    background: #ffdddd;
+    border-radius: 10px;
+    padding: 10px 20px;
+    color: #fb4f4f;
+}
+.helptext{
+    display: none;
+}

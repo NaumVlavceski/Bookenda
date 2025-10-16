@@ -1,0 +1,225 @@
+{% extends 'basic.html' %}
+{% block content %}
+    <style>
+        .icon {
+            display: inline-block;
+            width: 70px;
+            height: 70px;
+            background: #dbeafe;
+            border-radius: 100%;
+        }
+
+        .icon svg {
+            width: 30px;
+            height: 30px;
+            margin-top: 25%;
+        }
+
+        .user {
+            display: inline-block;
+        }
+
+        .buttons {
+            width: 100%;
+            background: none;
+            height: 50px;
+            border: 0;
+        }
+
+        .buttons:hover {
+            background: #e0e6ff;
+        }
+
+        .card {
+            margin: 30px 0;
+        }
+
+
+        .de_active {
+            display: none;
+        }
+
+        .active {
+            background: #e7e7fb;
+        }
+
+        svg {
+            width: 20px;
+        }
+
+        .card-body .under {
+            padding-left: 1%;
+        }
+
+        #change_password {
+            max-width: 320px;
+            display: flex;
+            padding: 10%;
+            line-height: 1.25rem;
+            font-weight: 700;
+            text-align: center;
+            vertical-align: middle;
+            align-items: center;
+            border-radius: 0.5rem;
+            border: 1px solid rgba(0, 0, 0, 0.25);
+            gap: 0.75rem;
+            color: rgb(65, 63, 63);
+            background-color: #fff;
+            cursor: pointer;
+            transition: all .6s ease;
+            text-decoration: none;
+        }
+        .row{
+                margin: 0 0;
+            }
+        .close{
+            width: 90px;
+            margin-bottom: 5%;
+        }
+        @media (max-width: 768px) {
+            .row>*{
+                width: auto !important;
+            }
+
+        }
+
+    </style>
+    <title>Profile</title>
+    <div class="container">
+
+        <div class="card" style="padding: 30px">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-2 col-lg-1 col-ms-2">
+                        <div class="icon text-center">
+                            <svg fill="#1a9cff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                <path d="M144 128a80 80 0 1 1 160 0 80 80 0 1 1 -160 0zm208 0a128 128 0 1 0 -256 0 128 128 0 1 0 256 0zM48 480c0-70.7 57.3-128 128-128l96 0c70.7 0 128 57.3 128 128l0 8c0 13.3 10.7 24 24 24s24-10.7 24-24l0-8c0-97.2-78.8-176-176-176l-96 0C78.8 304 0 382.8 0 480l0 8c0 13.3 10.7 24 24 24s24-10.7 24-24l0-8z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="col-md-8 col-lg-9 col-ms-8">
+                        <div class="user">
+                            <h1 class="card-title">
+                                <strong>{{ request.user.first_name }} {{ request.user.last_name }}</strong></h1>
+                            <p class="card-text">{{ request.user.email }}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-lg-2 col-ms-2">
+                        <a id="change_password" href="{% url 'password_change' %}" class="button">
+                            Change password
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="row">
+                <div class="col" style="padding: 0">
+                    <button id="reservation_button" class="card-header buttons active" onclick="reservations(this)"
+                            type="button">My Reservations({{ reservations.count }})
+                    </button>
+                </div>
+                <div class="col" style="padding: 0">
+                    <button id="event_button" class="card-header buttons " onclick="events(this)" type="button">Events I
+                        Created({{ events.count }})
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="reservation" class="card-body">
+
+
+            {% for reservation in reservations %}
+
+                <div class="card " style="width: 100%;">
+                    <div class="row no-fullwidth">
+                        <div class="card-body col-md-10">
+                            <div class="under">
+                                <h3 class="card-title">{{ reservation.event.title }}</h3>
+                                <p class="card-text">
+                                    <svg fill="#4db2ff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                        <path d="M464 256a208 208 0 1 1 -416 0 208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0 256 256 0 1 0 -512 0zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/>
+                                    </svg>
+                                    {{ reservation.event.date_time }}</p>
+                                <p class="card-text">
+                                    <svg fill="#4db2ff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                                        <path d="M0 188.6C0 84.4 86 0 192 0S384 84.4 384 188.6c0 119.3-120.2 262.3-170.4 316.8-11.8 12.8-31.5 12.8-43.3 0-50.2-54.5-170.4-197.5-170.4-316.8zM192 256a64 64 0 1 0 0-128 64 64 0 1 0 0 128z"/>
+                                    </svg>
+                                    {{ reservation.event.location }}</p>
+                                <p class="card-text">
+                                    <svg fill="#4db2ff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                                        <path d="M64 64C28.7 64 0 92.7 0 128l0 64C0 200.8 7.4 207.7 15.7 210.6 34.5 217.1 48 235 48 256s-13.5 38.9-32.3 45.4C7.4 304.3 0 311.2 0 320l0 64c0 35.3 28.7 64 64 64l448 0c35.3 0 64-28.7 64-64l0-64c0-8.8-7.4-15.7-15.7-18.6-18.8-6.5-32.3-24.4-32.3-45.4s13.5-38.9 32.3-45.4c8.3-2.9 15.7-9.8 15.7-18.6l0-64c0-35.3-28.7-64-64-64L64 64zM416 336l0-160-256 0 0 160 256 0zM112 160c0-17.7 14.3-32 32-32l288 0c17.7 0 32 14.3 32 32l0 192c0 17.7-14.3 32-32 32l-288 0c-17.7 0-32-14.3-32-32l0-192z"/>
+                                    </svg>
+                                    {{ reservation.seat_reservation }} ticket(s)
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-2" style="padding: 2%">
+                            <form method="post" action="{% url 'remove_reservation' reservation.id %}">
+                                {% csrf_token %}
+                                <button class="close btn btn-danger">Cancel</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div id="event" class="card-body de_active">
+            {% for event in events %}
+                <div class="card " style="width: 100%;">
+                    <div class="row no-fullwidth">
+                        <div class="card-body col-md-10">
+                            <div class="under">
+                                <h3 class="card-title">{{ event.title }}</h3>
+                                <p class="card-text">
+                                    <svg fill="#4db2ff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                        <path d="M464 256a208 208 0 1 1 -416 0 208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0 256 256 0 1 0 -512 0zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/>
+                                    </svg>
+                                    {{ event.date_time }}</p>
+                                <p class="card-text">
+                                    <svg fill="#4db2ff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                                        <path d="M0 188.6C0 84.4 86 0 192 0S384 84.4 384 188.6c0 119.3-120.2 262.3-170.4 316.8-11.8 12.8-31.5 12.8-43.3 0-50.2-54.5-170.4-197.5-170.4-316.8zM192 256a64 64 0 1 0 0-128 64 64 0 1 0 0 128z"/>
+                                    </svg>
+                                    {{ event.location }}</p>
+                                <p class="card-text">
+                                    <svg fill="#4db2ff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                                        <!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                                        <path d="M64 64C28.7 64 0 92.7 0 128l0 64C0 200.8 7.4 207.7 15.7 210.6 34.5 217.1 48 235 48 256s-13.5 38.9-32.3 45.4C7.4 304.3 0 311.2 0 320l0 64c0 35.3 28.7 64 64 64l448 0c35.3 0 64-28.7 64-64l0-64c0-8.8-7.4-15.7-15.7-18.6-18.8-6.5-32.3-24.4-32.3-45.4s13.5-38.9 32.3-45.4c8.3-2.9 15.7-9.8 15.7-18.6l0-64c0-35.3-28.7-64-64-64L64 64zM416 336l0-160-256 0 0 160 256 0zM112 160c0-17.7 14.3-32 32-32l288 0c17.7 0 32 14.3 32 32l0 192c0 17.7-14.3 32-32 32l-288 0c-17.7 0-32-14.3-32-32l0-192z"/>
+                                    </svg>
+                                    {{ event.free_seats }}/{{ event.capacity }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-2" style="padding: 2%">
+                            <form method="post" action="{% url 'delete_event' event.id %}">
+                                {% csrf_token %}
+                                <button class="close btn btn-danger">Delete</button>
+                            </form>
+                            <form method="get" action="{% url 'edit_event' event.id %}">
+                                {% csrf_token %}
+                                <button class="close btn btn-primary">Edit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        function reservations(button) {
+            button.classList.add("active")
+            document.getElementById("event_button").classList.remove("active")
+            document.getElementById("event").classList.add("de_active")
+            document.getElementById("reservation").classList.remove("de_active")
+        }
+
+        function events(button) {
+            button.classList.add("active")
+            document.getElementById("reservation_button").classList.remove("active")
+            document.getElementById("reservation").classList.add("de_active")
+            document.getElementById("event").classList.remove("de_active")
+        }
+    </script>
+
+{% endblock %}

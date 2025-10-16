@@ -1,0 +1,82 @@
+{% extends 'basic.html' %}
+{% block content %}
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let filters = {location: "", type: "", title: ""};
+
+            function loadEvents() {
+                const params = new URLSearchParams(filters).toString();
+                fetch(`?${params}`, {headers: {'X-Requested-With': 'XMLHttpRequest'}})
+                    .then(response => response.text())
+                    .then(html => {
+                        document.getElementById("events-container").innerHTML = html;
+                    });
+            }
+
+            // Location filter
+            document.getElementById("location-filter").addEventListener("input", function () {
+                filters.location = this.value;
+                loadEvents();
+            });
+            // Type filter
+            document.querySelector("#type-filter").addEventListener("change", (e) => {
+                e.preventDefault()
+                filters.type = e.target.selectedOptions[0].dataset.type;
+                loadEvents();
+            })
+
+            // Title search
+            document.getElementById("title-search").addEventListener("input", function () {
+                filters.title = this.value;
+                loadEvents();
+            });
+        });
+    </script>
+    <style>
+        .events-bg {
+            background: linear-gradient(135deg, #3030f6 0%, #010f65 100%);
+        }
+
+        .exp {
+            color: #f1f1f1;
+            font-size: 30px;
+        }
+
+        .filters {
+            margin: 20px;
+            border-radius: 20px;
+            --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.5);
+            box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+        }
+
+    </style>
+    <title>Events</title>
+    <div class="events-bg p-5 ">
+        <h1 class="text-white"><strong>Discover Events</strong></h1>
+        <p class="exp">Find your next unforgettable experience</p>
+    </div>
+    <div class="container">
+
+        <div class="filters p-4 row justify-content-start">
+            <div class="col-md-4">
+                <input type="text" id="title-search" class="form-control mb-2" placeholder=" Search by title">
+            </div>
+            <div class="col-md-4">
+                <input type="text" id="location-filter" class="form-control mb-2" placeholder=" Location">
+
+            </div>
+            <div class="col-md-4">
+                <select id="type-filter" class="form-control mb-2" name="type">
+                    <option data-type=""> All Types</option>
+                    {% for t in types %}
+                        <option data-type="{{ t }}">{{ t }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    <div id="events-container" class="container">
+        {% include "events/_events_list.html" %}
+    </div>
+{% endblock %}

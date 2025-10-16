@@ -1,0 +1,92 @@
+{% extends "basic.html" %}
+{% block content %}
+    <style>
+    </style>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/crud.css' %}">
+    <title>Create event</title>
+    <div class="d-flex justify-content-center">
+        <div class="container pt-5">
+            <div class="text-center">
+                <div class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                        <!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                        <path fill="#4db2ff"
+                              d="M120 0c13.3 0 24 10.7 24 24l0 40 160 0 0-40c0-13.3 10.7-24 24-24s24 10.7 24 24l0 40 32 0c35.3 0 64 28.7 64 64l0 288c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 128C0 92.7 28.7 64 64 64l32 0 0-40c0-13.3 10.7-24 24-24zm0 112l-56 0c-8.8 0-16 7.2-16 16l0 48 352 0 0-48c0-8.8-7.2-16-16-16l-264 0zM48 224l0 192c0 8.8 7.2 16 16 16l320 0c8.8 0 16-7.2 16-16l0-192-352 0z"/>
+                    </svg>
+                </div>
+                <h1><strong>Create New Event</strong></h1>
+                <p class=" text-secondary">Share your event with the community</p>
+            </div>
+            <form method="post" enctype="multipart/form-data" class="form row">
+                {% csrf_token %}
+                <div>
+                    <label for="id_title">Title <span>*</span>:</label>
+                    <input type="text" placeholder="Summer Music Festival 2025" name="title" class="form-control"
+                           required="" id="id_title">
+                </div>
+                <div>
+                    <label for="id_type">Type <span>*</span>:</label>
+                    <select required="" name="type" class="form-control" id="id_type">
+                        <option value="" selected="">------</option>
+
+                        <option value="Business">Business</option>
+
+                        <option value="Sports">Sports</option>
+
+                        <option value="Charity">Charity</option>
+
+                        <option value="Councils">Councils</option>
+
+                        <option value="Academic">Academic</option>
+
+                        <option value="Cultural">Cultural</option>
+
+                        <option value="Community">Community</option>
+
+                        <option value="Concert">Concert</option>
+
+                    </select>
+
+                </div>
+
+                <div class="col ">
+                    <label for="id_date_time">Date time <span>*</span>:</label>
+                    <input required="" type="datetime-local" name="date_time" class="form-control" id="id_date_time">
+                </div>
+                <div class="col">
+                    <label for="id_location">Location <span>*</span>:</label>
+                    <input required="" placeholder="Online" type="text" name="location" maxlength="100" class="form-control"
+                           id="id_location">
+                </div>
+                <div>
+                    <label for="id_description">Description <span>*</span>:</label>
+                    <textarea required="" placeholder="Describe your event in detail..." name="description" cols="40" rows="10"
+                              class="form-control"
+                              id="id_description"></textarea>
+                </div>
+                <div class="col">
+                    <label for="id_capacity">Capacity <span>*</span>:</label>
+                    <input placeholder="100" type="number" name="capacity" class="form-control" required=""
+                           id="id_capacity">
+                </div>
+                <div class="col">
+                    <label for="id_price">Price <span>*</span>:</label>
+                    <input required="" placeholder="0.00 (Free)" type="number" name="price" step="any" class="form-control"
+                           id="id_price">
+                </div>
+                <div>
+                    <label for="id_photo">Photo <span>*</span>:</label>
+                    <input required="" type="file" name="photo" accept="image/*" class="form-control" id="id_photo">
+                </div>
+                <div class="col">
+                    <a href="{% url 'events' %}" class="btn btn-white">Cancel</a>
+                </div>
+                <div class="col">
+                    <button class="btn btn-primary">Submit</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+{% endblock %}

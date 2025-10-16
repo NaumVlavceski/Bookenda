@@ -1,0 +1,278 @@
+{% extends 'basic.html' %}
+{% load static %}
+{% block content %}
+    <style>
+        .index {
+            background-image: url("media/events/nicholas-green-nPz8akkUmDI-unsplash.jpg");
+            background-size: cover;
+            width: 100%;
+            padding: 10%;
+            background-repeat: no-repeat;
+            background-color: rgba(0, 0, 0, 0.5);
+            background-blend-mode: darken;
+
+        }
+
+        .index h1 {
+            color: white;
+            font-size: 80px;
+        }
+
+        .index h2, .index h4 {
+            color: #d0d9fd;
+            font-size: 80px;
+        }
+
+        .index h4 {
+            font-size: 30px;
+        }
+
+
+        .buttons a {
+            margin: 5px;
+            padding: 12.5px 30px;
+            border: 1px solid white;
+            border-radius: 20px;
+            font-weight: Bold;
+            transition: all 0.5s;
+            -webkit-transition: all 0.5s;
+        }
+
+        .buttons a:hover {
+            transform: scale(1.1);
+            border: 1px solid white;
+        }
+
+        .buttons a:active {
+            transition: all 0.25s;
+            -webkit-transition: all 0.25s;
+            box-shadow: none;
+            transform: scale(0.98);
+        }
+
+        .body {
+            background: #f3f3f3;
+            background: linear-gradient(#e8e8e8, #fff);
+        }
+
+        .icon {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            border-radius: 100%;
+        }
+
+        .icon svg {
+            width: 30px;
+            height: 30px;
+            margin-top: 25%;
+        }
+
+        .card2 {
+            background: linear-gradient(135deg, #3030f6 0%, #010f65 100%);
+            padding: 10%;
+        }
+
+        .p, .text-secondary {
+            color: #d1d1d1;
+            font-size: 20px;
+        }
+
+        .card2 h1 {
+            font-size: 50px;
+        }
+
+        .card2 div svg {
+            width: 80px;
+            height: 80px;
+        }
+
+        .card-body {
+            padding: 10%;
+        }
+
+        .card {
+            border: white;
+            width: 100%;
+            height: 100%;
+
+        }
+
+        .card:hover {
+            box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-text {
+            color: gray;
+        }
+
+        footer {
+            background: #111827;
+            padding: 3% 3% 2% 3%;
+        }
+
+        footer p, footer div a, hr {
+            color: #a6a6a6;
+            text-decoration: none;
+        }
+
+        footer h3, footer h2 {
+            color: white;
+        }
+
+
+        @media (max-width: 768px) {
+            .index {
+                padding: 33% 20px;
+
+            }
+
+            .index h1 {
+                font-size: 40px;
+            }
+
+            .index h2 {
+                font-size: 30px;
+            }
+
+            .index h4 {
+                font-size: 15px;
+            }
+
+            .buttons a {
+                display: block;
+                margin-left: 25%;
+                margin-top: 2%;
+                width: 50%
+            }
+        }
+
+    </style>
+    <title>Home</title>
+    <div class="index text-center">
+        <h1><strong>Discover Amazing Events</strong></h1>
+        <h2><strong>Near You</strong></h2>
+        <h4>Your gateway to unforgettable experiences. Find, book, and create events that bring people
+            together.</h4>
+        <div class="buttons mt-5">
+            <a href="{% url 'events' %}" id="explore" class="btn btn-light text-primary">Explore Event</a>
+            {% if request.user.is_anonymous %}
+                <a href="{% url 'login' %}" id="started" class="btn btn-primary">Get Started</a>
+            {% else %}
+                <a href="{% url 'add_event' %}" id="started" class="btn btn-primary">Get Started</a>
+            {% endif %}
+        </div>
+
+    </div>
+    <div class="body">
+        <div class="text-center pt-5">
+            <h1><strong>Why Choose Bookenda</strong></h1>
+            <p class="text-secondary">We make event discovery and management simple, seamless, and secure.</p>
+        </div>
+        <div class="container mt-5 pb-5">
+            <div class="row justify-content-around">
+                <div class="col-lg-3 col-md-6 col-ms-12 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="icon text-center" style="background: #dde8ff;">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                    <path fill="#086dba"
+                                          d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376C296.3 401.1 253.9 416 208 416 93.1 416 0 322.9 0 208S93.1 0 208 0 416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/>
+                                </svg>
+                            </p>
+                            <h5 class="card-title">Easy Discovery</h5>
+                            <p class="card-text">Finds events by title, type, or location with our powerful search
+                                tools.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-ms-12 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="icon text-center" style="background: #e3ffdd;">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                                    <path fill="#00c288"
+                                          d="M64 64C28.7 64 0 92.7 0 128l0 64C0 200.8 7.4 207.7 15.7 210.6 34.5 217.1 48 235 48 256s-13.5 38.9-32.3 45.4C7.4 304.3 0 311.2 0 320l0 64c0 35.3 28.7 64 64 64l448 0c35.3 0 64-28.7 64-64l0-64c0-8.8-7.4-15.7-15.7-18.6-18.8-6.5-32.3-24.4-32.3-45.4s13.5-38.9 32.3-45.4c8.3-2.9 15.7-9.8 15.7-18.6l0-64c0-35.3-28.7-64-64-64L64 64zM416 336l0-160-256 0 0 160 256 0zM112 160c0-17.7 14.3-32 32-32l288 0c17.7 0 32 14.3 32 32l0 192c0 17.7-14.3 32-32 32l-288 0c-17.7 0-32-14.3-32-32l0-192z"/>
+                                </svg>
+                            </p>
+                            <h5 class="card-title">Instant Booking</h5>
+                            <p class="card-text">Reserve your spot in seconds with our streamlined booking process.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-ms-12 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="icon text-center" style="background: #ffeee3;">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                    <path fill="#f59d38"
+                                          d="M120 0c13.3 0 24 10.7 24 24l0 40 160 0 0-40c0-13.3 10.7-24 24-24s24 10.7 24 24l0 40 32 0c35.3 0 64 28.7 64 64l0 288c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 128C0 92.7 28.7 64 64 64l32 0 0-40c0-13.3 10.7-24 24-24zm0 112l-56 0c-8.8 0-16 7.2-16 16l0 48 352 0 0-48c0-8.8-7.2-16-16-16l-264 0zM48 224l0 192c0 8.8 7.2 16 16 16l320 0c8.8 0 16-7.2 16-16l0-192-352 0z"/>
+                                </svg>
+                            </p>
+
+                            <h5 class="card-title">Create Events</h5>
+                            <p class="card-text">Host your own events and manage attendees all in one place.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-ms-12 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="icon text-center" style="background: #ebd6ff;">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                    <path fill="#815cf0"
+                                          d="M144 128a80 80 0 1 1 160 0 80 80 0 1 1 -160 0zm208 0a128 128 0 1 0 -256 0 128 128 0 1 0 256 0zM48 480c0-70.7 57.3-128 128-128l96 0c70.7 0 128 57.3 128 128l0 8c0 13.3 10.7 24 24 24s24-10.7 24-24l0-8c0-97.2-78.8-176-176-176l-96 0C78.8 304 0 382.8 0 480l0 8c0 13.3 10.7 24 24 24s24-10.7 24-24l0-8z"/>
+                                </svg>
+                            </p>
+                            <h5 class="card-title">Join Community</h5>
+                            <p class="card-text">Connect with like-minded people and build lasting memories.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center text-white card2 mt-5 rounded-5">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                        <path fill="#f2f8fd"
+                              d="M0 188.6C0 84.4 86 0 192 0S384 84.4 384 188.6c0 119.3-120.2 262.3-170.4 316.8-11.8 12.8-31.5 12.8-43.3 0-50.2-54.5-170.4-197.5-170.4-316.8zM192 256a64 64 0 1 0 0-128 64 64 0 1 0 0 128z"/>
+                    </svg>
+                </div>
+                <h1>Ready to Start Your Journey?</h1>
+                <p class="p">Join thousands of event enthusiasts discovering and creating memorable experiences every
+                    day.</p>
+                <div class="buttons">
+                    <a class="btn btn-light text-primary" href="{% url 'events' %}">Brows Events Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="row">
+            <div class="col">
+                <div>
+                    <h2><strong>Bookenda</strong></h2>
+                    <p>Your trusted platform for discovering and creating amazing events.</p>
+                </div>
+            </div>
+            <div class="col">
+                <h3>Quick Links</h3>
+                <div>
+                    <a href="{% url 'events' %}">Browse Events</a>
+                </div>
+                <div>
+                    <a href="{% url 'add_event' %}">Create Event</a>
+                </div>
+            </div>
+            <div class="col">
+                <h3>Connect With Us</h3>
+                <p>Stay updated with the latest events and community news.</p>
+            </div>
+        </div>
+        <hr>
+        <div class="text-center" style="padding-top: 2%">
+            <p>&copy; 2025 EventHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+{% endblock %}

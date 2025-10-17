@@ -21,8 +21,13 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 
+
 def send_async_email(email):
-    email.send(fail_silently=False)
+    try:
+        email.send(fail_silently=False)
+    except Exception as e:
+        print("Email error:", e)
+
 
 def register(request):
     if request.method == "POST":
@@ -67,6 +72,7 @@ def register(request):
         form = UserRegisterForm()
 
     return render(request, "registration/register.html", {'form': form})
+
 
 def events(request):
     events = Event.objects.all()

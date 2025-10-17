@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-wougnc(a&u49#3brd9$=p0ahzz1$6-40uvffy8l)7zr5u7x-4p
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["bookenda.onrender.com", "localhost", "127.0.0.1"]
 
 # Application definition
 

@@ -1,8 +1,10 @@
 import datetime
+from threading import Thread
 
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMessage
+from django.template.loader import render_to_string
 
 from EventsReservation import settings
 from app.forms import UserRegisterForm, ReserveForm, typeForm, EventForm
@@ -19,45 +21,41 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 
+def send_async_email(email):
+    email.send(fail_silently=False)
 
 def register(request):
     if request.method == "POST":
         username = User.objects.filter(username=request.POST['username'])
-        email = User.objects.filter(email=request.POST['email'])
+        email_qs = User.objects.filter(email=request.POST['email'])
         form = UserRegisterForm(request.POST)
-        print(email)
-        print(username)
 
         if form.is_valid():
-            if email.exists():
+            if email_qs.exists():
                 messages.error(request, 'Email already registered')
                 return redirect("register")
             if username.exists():
                 messages.error(request, 'Username already registered')
                 return redirect("register")
+
             user = form.save()
             login(request, user)
-            subject = "Welcome to my site"
-            subject2 = "New login from"
-            # message = f"Hi {user.first_name} {user.last_name}\n\nThank you for registering!\nEnjoy using our service. "
-            message = f"""
-Hi {user.first_name} {user.last_name},
-
-Welcome to our community! 🎉  
-Your registration was successful, and we’re thrilled to have you on board.
-
-Feel free to explore, connect, and make the most of what we offer.  
-If you ever need help, our support team is always here for you.
-
-Best regards,  
-The Bookenda Team
-            """
-            message2 = f"{user.first_name} {user.last_name}\n {user.email}"
             from_email = settings.EMAIL_HOST_USER
-            recipient_list = [user.email]
+
+            # HTML email to user
+            subject = "Welcome to Bookenda!"
+            html_message = render_to_string('emails/welcome_email.html', {'user': user})
+            email_user = EmailMessage(subject, html_message, from_email, [user.email])
+            email_user.content_subtype = "html"  # важен ред за HTML
+            Thread(target=send_async_email, args=(email_user,)).start()
+
+            # Notification to admin (plain text)
+            subject2 = "New user registered"
+            message2 = f"New user registered:\nName: {user.first_name} {user.last_name}\nEmail: {user.email}"
             recipient_list2 = ['nvlavceski542@gmail.com']
-            send_mail(subject, message, from_email, recipient_list)
-            send_mail(subject2, message2, from_email, recipient_list2)
+            email_admin = EmailMessage(subject2, message2, from_email, recipient_list2)
+            Thread(target=send_async_email, args=(email_admin,)).start()
+
             return redirect("index")
         else:
             for field, errors in form.errors.items():
@@ -65,11 +63,10 @@ The Bookenda Team
                     messages.error(request, f"{error}")
                     break
                 break
-
     else:
         form = UserRegisterForm()
-    return render(request, "registration/register.html", {'form': form})
 
+    return render(request, "registration/register.html", {'form': form})
 
 def events(request):
     events = Event.objects.all()

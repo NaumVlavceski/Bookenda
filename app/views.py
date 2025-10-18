@@ -25,8 +25,9 @@ from django.shortcuts import render, redirect
 def send_async_email(email):
     try:
         email.send(fail_silently=False)
+        print("✅ Email sent successfully.")
     except Exception as e:
-        print("Email error:", e)
+        print("❌ Email error:", e)
 
 
 def register(request):
@@ -45,24 +46,31 @@ def register(request):
 
             user = form.save()
             login(request, user)
-            from_email = settings.EMAIL_HOST_USER
+
+            from_email = settings.DEFAULT_FROM_EMAIL
 
             # HTML email to user
             subject = "Welcome to Bookenda!"
             html_message = render_to_string('emails/welcome_email.html', {'user': user})
             email_user = EmailMessage(subject, html_message, from_email, [user.email])
-            email_user.content_subtype = "html"  # важен ред за HTML
+            email_user.content_subtype = "html"
             Thread(target=send_async_email, args=(email_user,)).start()
 
             # Notification to admin (plain text)
             subject2 = "New user registered"
-            message2 = f"New user registered:\nName: {user.first_name} {user.last_name}\nEmail: {user.email}"
-            recipient_list2 = ['nvlavceski542@gmail.com']
-            email_admin = EmailMessage(subject2, message2, from_email, recipient_list2)
+            message2 = (
+                f"New user registered:\n\n"
+                f"Name: {user.first_name} {user.last_name}\n"
+                f"Email: {user.email}"
+            )
+            email_admin = EmailMessage(subject2, message2, from_email, ['nvlavceski542@gmail.com'])
             Thread(target=send_async_email, args=(email_admin,)).start()
 
+            messages.success(request, "Account created successfully! Welcome email sent.")
             return redirect("index")
+
         else:
+            # Ако има невалидна форма
             for field, errors in form.errors.items():
                 for error in errors:
                     messages.error(request, f"{error}")

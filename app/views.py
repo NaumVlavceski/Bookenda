@@ -66,7 +66,7 @@ def register(request):
             email_admin = EmailMessage(subject2, message2, from_email, ['nvlavceski542@gmail.com'])
             Thread(target=send_async_email, args=(email_admin,)).start()
 
-            messages.success(request, "Account created successfully! Welcome email sent.")
+            messages.success(request, "Your account has been created successfully. A welcome email has been sent — please check your inbox or spam folder.")
             return redirect("index")
 
         else:

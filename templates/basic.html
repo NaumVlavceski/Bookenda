@@ -10,14 +10,15 @@
             integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" href="../media/global/Logo.png" type="image/x-icon">
+    <link rel="icon" href="{% static 'global/Logo.png' %}" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <style>
     nav {
         box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
     }
-    .navbar-brand img{
+
+    .navbar-brand img {
         margin-left: 5%;
     }
 
@@ -34,7 +35,7 @@
         position: relative;
     }
 
-    .nav-link{
+    .nav-link {
         background-color: transparent;
         border: none;
         color: #0d1117;
@@ -52,7 +53,7 @@
     .nav-link:hover,
     .nav-link:focus,
     .nav-link.active {
-        background-color: #a7cffb;
+        background-color: #c7e0fb;
         color: #000;
     }
 
@@ -67,7 +68,6 @@
         left: 0;
         height: 3px;
         width: 100%;
-        background-color: #6cb6fb;
         border-radius: 5px;
         opacity: 0;
         transition: opacity 0.2s ease;
@@ -84,7 +84,7 @@
 <body>
 <nav class="navbar navbar-expand-lg bg-white">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/"><img src="../media/global/Logo-text.png" width="200"></a>
+        <a class="navbar-brand" href="/"><img src="{% static 'global/Logo-text.png' %}" width="200"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -95,16 +95,19 @@
                     <a class="nav-link {% if request.path == '/' %} active {% endif %}" aria-current="page" href="/">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if request.path == '/events/' %} active {% endif %}" aria-current="page" href="/events">Events</a>
+                    <a class="nav-link {% if request.path == '/events/' %} active {% endif %}" aria-current="page"
+                       href="/events">Events</a>
                 </li>
                 {% if request.user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == '/add_event/' %} active {% endif %}" aria-current="page" href="/add_event">Create Event</a>
+                        <a class="nav-link {% if request.path == '/add_event/' %} active {% endif %}"
+                           aria-current="page" href="/add_event">Create Event</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == '/profile/' %} active {% endif %}" aria-current="page" href="/profile">Profile</a>
+                        <a class="nav-link {% if request.path == '/profile/' %} active {% endif %}" aria-current="page"
+                           href="/profile">Profile</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item pt-1">
                         <form method="post" action="{% url 'logout' %}">
                             {% csrf_token %}
                             <button class="btn btn-danger" type="submit">Sign out</button>
@@ -112,9 +115,10 @@
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == '/login/' %} active {% endif %}" aria-current="page" href="/login">Login</a>
+                        <a class="nav-link {% if request.path == '/login/' %} active {% endif %}" aria-current="page"
+                           href="/login">Login</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item pt-1">
                         <a class="btn btn-primary" aria-current="page" href="/register">Sign up</a>
                     </li>
                 {% endif %}

@@ -148,6 +148,25 @@
         }
 
     </style>
+    <script>
+        if (!localStorage.getItem('seenWarning')) {
+            alert("This site uses a static DB. If you come back later, your account and changes will not be saved.");
+
+            localStorage.setItem('seenWarning', 'true');
+        }
+
+        const messages = [
+            {% for message in messages %}
+                {text: "{{ message|escapejs }}", tags: "{{ message.tags }}"},
+            {% endfor %}
+        ];
+
+        for (let message of messages) {
+            if (message.tags.includes('success')) {
+                alert(message.text);
+            }
+        }
+    </script>
     <title>Home</title>
     <div class="index text-center">
         <h1><strong>Discover Amazing Events</strong></h1>
